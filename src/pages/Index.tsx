@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import Dashboard from '@/components/Dashboard';
 import ServiceHistory from '@/components/ServiceHistory';
 import Profile from '@/components/Profile';
+import BookAppointment from '@/pages/BookAppointment';
 
 interface IndexProps {
   onSignOut: () => void;
@@ -13,17 +14,31 @@ interface IndexProps {
 
 const Index = ({ onSignOut }: IndexProps) => {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [showBooking, setShowBooking] = useState(false);
+
+  const handleBookAppointment = () => {
+    setShowBooking(true);
+  };
+
+  const handleBackFromBooking = () => {
+    setShowBooking(false);
+  };
+
+  // Show booking page if user is booking
+  if (showBooking) {
+    return <BookAppointment onBack={handleBackFromBooking} />;
+  }
 
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
-        return <Dashboard />;
+        return <Dashboard onBookAppointment={handleBookAppointment} />;
       case 'history':
         return <ServiceHistory />;
       case 'profile':
         return <Profile onSignOut={onSignOut} />;
       default:
-        return <Dashboard />;
+        return <Dashboard onBookAppointment={handleBookAppointment} />;
     }
   };
 

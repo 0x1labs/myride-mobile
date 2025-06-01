@@ -1,4 +1,3 @@
-
 import { Calendar, MessageCircle, AlertTriangle, CheckCircle, FileText, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,7 +6,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
-const Dashboard = () => {
+interface DashboardProps {
+  onBookAppointment?: () => void;
+}
+
+const Dashboard = ({ onBookAppointment }: DashboardProps) => {
   const [questionText, setQuestionText] = useState('');
   const [showQuestionBox, setShowQuestionBox] = useState(false);
   const { toast } = useToast();
@@ -187,6 +190,7 @@ const Dashboard = () => {
         {/* Action Buttons */}
         <div className="space-y-3">
           <Button 
+            onClick={onBookAppointment}
             className="w-full h-12 text-base font-medium bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             aria-describedby="book-appointment-help"
           >
