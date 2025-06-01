@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Bell, Calendar, MessageCircle, User, History, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -8,7 +7,11 @@ import Dashboard from '@/components/Dashboard';
 import ServiceHistory from '@/components/ServiceHistory';
 import Profile from '@/components/Profile';
 
-const Index = () => {
+interface IndexProps {
+  onSignOut: () => void;
+}
+
+const Index = ({ onSignOut }: IndexProps) => {
   const [activeTab, setActiveTab] = useState('dashboard');
 
   const renderContent = () => {
@@ -18,7 +21,7 @@ const Index = () => {
       case 'history':
         return <ServiceHistory />;
       case 'profile':
-        return <Profile />;
+        return <Profile onSignOut={onSignOut} />;
       default:
         return <Dashboard />;
     }
