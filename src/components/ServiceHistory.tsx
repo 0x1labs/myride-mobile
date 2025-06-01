@@ -4,6 +4,7 @@ import { ChevronDown, ChevronRight, Search } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 interface ServiceRecord {
   id: string;
@@ -95,56 +96,98 @@ const ServiceHistory = () => {
     record.date.includes(searchTerm)
   );
 
+  const clearSearch = () => {
+    setSearchTerm('');
+  };
+
   return (
     <div className="pb-20">
       <div className="p-4 space-y-4">
         {/* Search Bar */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+          <Search 
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" 
+            aria-hidden="true"
+          />
           <Input
             placeholder="Search by date or service type..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
+            className="pl-10 pr-20 h-12 text-base focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            aria-label="Search service records"
+            type="search"
           />
+          {searchTerm && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={clearSearch}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2"
+              aria-label="Clear search"
+            >
+              Clear
+            </Button>
+          )}
         </div>
 
         {/* Service Records */}
-        <div className="space-y-3">
-          {filteredRecords.map((record) => (
-            <Card key={record.id} className="overflow-hidden">
-              <CardContent className="p-0">
-                <button
-                  onClick={() => toggleExpand(record.id)}
-                  className="w-full p-4 text-left hover:bg-gray-50 transition-colors"
+        <div className="space-y-3" role="list" aria-label="Service history records">
+          {filteredRecords.length === 0 ? (
+            <Card className="p-8 text-center">
+              <p className="text-gray-500">No service records found matching your search.</p>
+              {searchTerm && (
+                <Button variant="outline" onClick={clearSearch} className="mt-2">
+                  Show all records
+                </Button>
+              )}
+            </Card>
+          ) : (
+            filteredRecords.map((record) => (
+              <Card key={record.id} className="overflow-hidden" role="listitem">
+                <Collapsible 
+                  open={expandedRecord === record.id}
+                  onOpenChange={() => toggleExpand(record.id)}
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900">{record.title}</h3>
-                      <div className="flex items-center gap-4 mt-1 text-sm text-gray-600">
-                        <span>{record.date}</span>
-                        <span>${record.cost}</span>
-                        <span>{record.mileage.toLocaleString()} mi</span>
+                  <CollapsibleTrigger asChild>
+                    <button
+                      className="w-full p-4 text-left hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
+                      aria-expanded={expandedRecord === record.id}
+                      aria-controls={`service-details-${record.id}`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-gray-900 text-lg">{record.title}</h3>
+                          <div className="flex items-center gap-4 mt-2 text-sm text-gray-600">
+                            <span aria-label={`Service date: ${record.date}`}>{record.date}</span>
+                            <span aria-label={`Cost: $${record.cost}`}>${record.cost}</span>
+                            <span aria-label={`Mileage: ${record.mileage.toLocaleString()} miles`}>
+                              {record.mileage.toLocaleString()} mi
+                            </span>
+                          </div>
+                        </div>
+                        <div className="ml-4 p-2">
+                          {expandedRecord === record.id ? (
+                            <ChevronDown className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                          ) : (
+                            <ChevronRight className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                          )}
+                        </div>
                       </div>
-                    </div>
-                    {expandedRecord === record.id ? (
-                      <ChevronDown className="h-5 w-5 text-gray-400" />
-                    ) : (
-                      <ChevronRight className="h-5 w-5 text-gray-400" />
-                    )}
-                  </div>
-                </button>
+                    </button>
+                  </CollapsibleTrigger>
 
-                {expandedRecord === record.id && (
-                  <div className="px-4 pb-4 border-t border-gray-100">
-                    <div className="pt-4 space-y-3">
+                  <CollapsibleContent 
+                    id={`service-details-${record.id}`}
+                    className="border-t border-gray-100"
+                  >
+                    <div className="px-4 pb-4 pt-4 space-y-4">
                       {/* Parts */}
                       <div>
-                        <h4 className="font-medium text-gray-900 mb-2">Parts Replaced</h4>
-                        <div className="space-y-1">
+                        <h4 className="font-medium text-gray-900 mb-3 text-base">Parts Replaced</h4>
+                        <div className="space-y-2">
                           {record.details.parts.map((part, index) => (
-                            <div key={index} className="flex justify-between text-sm">
-                              <span className="text-gray-600">{part.name}</span>
+                            <div key={index} className="flex justify-between items-center py-1">
+                              <span className="text-gray-700">{part.name}</span>
                               <span className="font-medium">${part.cost}</span>
                             </div>
                           ))}
@@ -152,46 +195,38 @@ const ServiceHistory = () => {
                       </div>
 
                       {/* Labor */}
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">Labor Cost</span>
+                      <div className="flex justify-between items-center py-2 border-t border-gray-100">
+                        <span className="text-gray-700 font-medium">Labor Cost</span>
                         <span className="font-medium">${record.details.labor}</span>
                       </div>
 
                       {/* Discounts */}
                       {record.details.discounts && (
-                        <div className="flex justify-between text-sm">
-                          <span className="text-gray-600">Discount Applied</span>
+                        <div className="flex justify-between items-center py-2">
+                          <span className="text-gray-700 font-medium">Discount Applied</span>
                           <span className="font-medium text-green-600">-${record.details.discounts}</span>
                         </div>
                       )}
 
                       {/* Total */}
-                      <div className="border-t pt-2">
-                        <div className="flex justify-between font-semibold">
-                          <span>Total Cost</span>
-                          <span>${record.cost}</span>
+                      <div className="border-t border-gray-200 pt-3">
+                        <div className="flex justify-between items-center">
+                          <span className="font-semibold text-lg">Total Cost</span>
+                          <span className="font-semibold text-lg">${record.cost}</span>
                         </div>
                       </div>
 
                       {/* Notes */}
-                      <div>
-                        <h4 className="font-medium text-gray-900 mb-1">Service Notes</h4>
-                        <p className="text-sm text-gray-600">{record.details.notes}</p>
+                      <div className="bg-gray-50 p-3 rounded-lg">
+                        <h4 className="font-medium text-gray-900 mb-2">Service Notes</h4>
+                        <p className="text-gray-700 leading-relaxed">{record.details.notes}</p>
                       </div>
                     </div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* Search Results */}
-        <div className="flex justify-center">
-          <Button variant="outline" className="w-full">
-            <Search className="mr-2 h-4 w-4" />
-            Search
-          </Button>
+                  </CollapsibleContent>
+                </Collapsible>
+              </Card>
+            ))
+          )}
         </div>
       </div>
     </div>
