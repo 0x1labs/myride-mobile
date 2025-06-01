@@ -1,5 +1,6 @@
+
 import { useState } from 'react';
-import { Bell, Calendar, MessageCircle, User, History, Home } from 'lucide-react';
+import { Bell, Calendar, MessageCircle, User, History, Home, FileText, CalendarCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -7,6 +8,9 @@ import Dashboard from '@/components/Dashboard';
 import ServiceHistory from '@/components/ServiceHistory';
 import Profile from '@/components/Profile';
 import BookAppointment from '@/pages/BookAppointment';
+import BookedAppointments from '@/components/BookedAppointments';
+import Notifications from '@/components/Notifications';
+import DocumentManager from '@/components/DocumentManager';
 
 interface IndexProps {
   onSignOut: () => void;
@@ -24,6 +28,10 @@ const Index = ({ onSignOut }: IndexProps) => {
     setShowBooking(false);
   };
 
+  const handleNotificationClick = () => {
+    setActiveTab('notifications');
+  };
+
   // Show booking page if user is booking
   if (showBooking) {
     return <BookAppointment onBack={handleBackFromBooking} />;
@@ -33,8 +41,14 @@ const Index = ({ onSignOut }: IndexProps) => {
     switch (activeTab) {
       case 'dashboard':
         return <Dashboard onBookAppointment={handleBookAppointment} />;
+      case 'appointments':
+        return <BookedAppointments />;
       case 'history':
         return <ServiceHistory />;
+      case 'documents':
+        return <DocumentManager />;
+      case 'notifications':
+        return <Notifications />;
       case 'profile':
         return <Profile onSignOut={onSignOut} />;
       default:
@@ -46,8 +60,14 @@ const Index = ({ onSignOut }: IndexProps) => {
     switch (activeTab) {
       case 'dashboard':
         return 'My Vehicle';
+      case 'appointments':
+        return 'My Appointments';
       case 'history':
         return 'Service History';
+      case 'documents':
+        return 'Documents';
+      case 'notifications':
+        return 'Notifications';
       case 'profile':
         return 'Account';
       default:
@@ -66,6 +86,7 @@ const Index = ({ onSignOut }: IndexProps) => {
           <Button 
             variant="ghost" 
             size="icon" 
+            onClick={handleNotificationClick}
             className="relative h-12 w-12 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             aria-label="Notifications"
           >
@@ -90,7 +111,7 @@ const Index = ({ onSignOut }: IndexProps) => {
         <div className="max-w-md mx-auto flex">
           <button
             onClick={() => setActiveTab('dashboard')}
-            className={`flex-1 py-3 px-4 flex flex-col items-center space-y-1 min-h-[60px] transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 ${
+            className={`flex-1 py-2 px-2 flex flex-col items-center space-y-1 min-h-[60px] transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 ${
               activeTab === 'dashboard' ? 'text-blue-600 bg-blue-50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
             }`}
             aria-label="Home screen"
@@ -99,9 +120,22 @@ const Index = ({ onSignOut }: IndexProps) => {
             <Home className="h-5 w-5" aria-hidden="true" />
             <span className="text-xs font-medium">Home</span>
           </button>
+          
+          <button
+            onClick={() => setActiveTab('appointments')}
+            className={`flex-1 py-2 px-2 flex flex-col items-center space-y-1 min-h-[60px] transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 ${
+              activeTab === 'appointments' ? 'text-blue-600 bg-blue-50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+            }`}
+            aria-label="My appointments"
+            aria-current={activeTab === 'appointments' ? 'page' : undefined}
+          >
+            <CalendarCheck className="h-5 w-5" aria-hidden="true" />
+            <span className="text-xs font-medium">Appointments</span>
+          </button>
+          
           <button
             onClick={() => setActiveTab('history')}
-            className={`flex-1 py-3 px-4 flex flex-col items-center space-y-1 min-h-[60px] transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 ${
+            className={`flex-1 py-2 px-2 flex flex-col items-center space-y-1 min-h-[60px] transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 ${
               activeTab === 'history' ? 'text-blue-600 bg-blue-50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
             }`}
             aria-label="Service history"
@@ -110,9 +144,22 @@ const Index = ({ onSignOut }: IndexProps) => {
             <History className="h-5 w-5" aria-hidden="true" />
             <span className="text-xs font-medium">History</span>
           </button>
+          
+          <button
+            onClick={() => setActiveTab('documents')}
+            className={`flex-1 py-2 px-2 flex flex-col items-center space-y-1 min-h-[60px] transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 ${
+              activeTab === 'documents' ? 'text-blue-600 bg-blue-50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+            }`}
+            aria-label="Documents"
+            aria-current={activeTab === 'documents' ? 'page' : undefined}
+          >
+            <FileText className="h-5 w-5" aria-hidden="true" />
+            <span className="text-xs font-medium">Documents</span>
+          </button>
+          
           <button
             onClick={() => setActiveTab('profile')}
-            className={`flex-1 py-3 px-4 flex flex-col items-center space-y-1 min-h-[60px] transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 ${
+            className={`flex-1 py-2 px-2 flex flex-col items-center space-y-1 min-h-[60px] transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 ${
               activeTab === 'profile' ? 'text-blue-600 bg-blue-50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
             }`}
             aria-label="Profile and settings"
