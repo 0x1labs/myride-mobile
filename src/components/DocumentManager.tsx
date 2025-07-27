@@ -136,7 +136,7 @@ const DocumentManager = () => {
     <div className="pb-20">
       <div className="p-4 space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-900">Document Management</h2>
+          <h2 className="text-xl font-semibold text-foreground">Document Management</h2>
         </div>
 
         <div className="space-y-4">
@@ -145,8 +145,8 @@ const DocumentManager = () => {
               <CardHeader className="pb-3">
                 <CardTitle className="text-lg font-semibold flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <FileText className="h-5 w-5 text-blue-600" />
-                    <span>{doc.name}</span>
+                    <FileText className="h-5 w-5 text-primary" />
+                    <span className="text-foreground">{doc.name}</span>
                   </div>
                   {editingId !== doc.id && (
                     <Button
@@ -168,7 +168,7 @@ const DocumentManager = () => {
                       <Label htmlFor={`expiry-${doc.id}`}>Expiry Date</Label>
                       <div className="flex items-center space-x-2 mt-1">
                         <div className="relative flex-1">
-                          <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                          <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                           <Input
                             id={`expiry-${doc.id}`}
                             type="date"
@@ -201,8 +201,8 @@ const DocumentManager = () => {
                 ) : (
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-gray-700">Expiry Date:</span>
-                      <span className="text-sm text-gray-900">{formatDate(doc.expiryDate)}</span>
+                      <span className="text-sm font-medium text-muted-foreground">Expiry Date:</span>
+                      <span className="text-sm text-foreground">{formatDate(doc.expiryDate)}</span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-gray-700">Status:</span>
@@ -223,10 +223,10 @@ const DocumentManager = () => {
         <Card className="bg-blue-50 border-blue-200">
           <CardContent className="p-4">
             <div className="flex items-start space-x-3">
-              <FileText className="h-5 w-5 text-blue-600 mt-0.5" />
+              <FileText className="h-5 w-5 text-primary mt-0.5" />
               <div>
-                <h3 className="text-sm font-medium text-blue-900">Keep Your Documents Updated</h3>
-                <p className="text-sm text-blue-700 mt-1">
+                <h3 className="text-sm font-medium text-black">Keep Your Documents Updated</h3>
+                <p className="text-sm text-black mt-1">
                   Regularly update your document expiry dates to receive timely renewal reminders and avoid any legal issues.
                 </p>
               </div>

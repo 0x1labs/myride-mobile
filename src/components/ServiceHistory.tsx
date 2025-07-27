@@ -106,14 +106,14 @@ const ServiceHistory = () => {
         {/* Search Bar */}
         <div className="relative">
           <Search 
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" 
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" 
             aria-hidden="true"
           />
           <Input
             placeholder="Search by date or service type..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 pr-20 h-12 text-base focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="pl-10 pr-20 h-12 text-base focus:ring-2 focus:ring-primary focus:ring-offset-2"
             aria-label="Search service records"
             type="search"
           />
@@ -134,7 +134,7 @@ const ServiceHistory = () => {
         <div className="space-y-3" role="list" aria-label="Service history records">
           {filteredRecords.length === 0 ? (
             <Card className="p-8 text-center">
-              <p className="text-gray-500">No service records found matching your search.</p>
+              <p className="text-muted-foreground">No service records found matching your search.</p>
               {searchTerm && (
                 <Button variant="outline" onClick={clearSearch} className="mt-2">
                   Show all records
@@ -150,16 +150,16 @@ const ServiceHistory = () => {
                 >
                   <CollapsibleTrigger asChild>
                     <button
-                      className="w-full p-4 text-left hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
+                      className="w-full p-4 text-left hover:bg-muted/50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset"
                       aria-expanded={expandedRecord === record.id}
                       aria-controls={`service-details-${record.id}`}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex-1">
-                          <h3 className="font-semibold text-gray-900 text-lg">{record.title}</h3>
-                          <div className="flex items-center gap-4 mt-2 text-sm text-gray-600">
+                          <h3 className="font-semibold text-auto-color text-lg">{record.title}</h3>
+                          <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
                             <span aria-label={`Service date: ${record.date}`}>{record.date}</span>
-                            <span aria-label={`Cost: $${record.cost}`}>${record.cost}</span>
+                            <span aria-label={`Cost: ${record.cost}`}>${record.cost}</span>
                             <span aria-label={`Mileage: ${record.mileage.toLocaleString()} miles`}>
                               {record.mileage.toLocaleString()} mi
                             </span>
@@ -167,9 +167,9 @@ const ServiceHistory = () => {
                         </div>
                         <div className="ml-4 p-2">
                           {expandedRecord === record.id ? (
-                            <ChevronDown className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                            <ChevronDown className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
                           ) : (
-                            <ChevronRight className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                            <ChevronRight className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
                           )}
                         </div>
                       </div>
@@ -178,16 +178,16 @@ const ServiceHistory = () => {
 
                   <CollapsibleContent 
                     id={`service-details-${record.id}`}
-                    className="border-t border-gray-100"
+                    className="border-t border-border"
                   >
                     <div className="px-4 pb-4 pt-4 space-y-4">
                       {/* Parts */}
                       <div>
-                        <h4 className="font-medium text-gray-900 mb-3 text-base">Parts Replaced</h4>
+                        <h4 className="font-medium text-foreground mb-3 text-base">Parts Replaced</h4>
                         <div className="space-y-2">
                           {record.details.parts.map((part, index) => (
                             <div key={index} className="flex justify-between items-center py-1">
-                              <span className="text-gray-700">{part.name}</span>
+                              <span className="text-muted-foreground">{part.name}</span>
                               <span className="font-medium">${part.cost}</span>
                             </div>
                           ))}
@@ -195,21 +195,21 @@ const ServiceHistory = () => {
                       </div>
 
                       {/* Labor */}
-                      <div className="flex justify-between items-center py-2 border-t border-gray-100">
-                        <span className="text-gray-700 font-medium">Labor Cost</span>
+                      <div className="flex justify-between items-center py-2 border-t border-border">
+                        <span className="text-muted-foreground font-medium">Labor Cost</span>
                         <span className="font-medium">${record.details.labor}</span>
                       </div>
 
                       {/* Discounts */}
                       {record.details.discounts && (
                         <div className="flex justify-between items-center py-2">
-                          <span className="text-gray-700 font-medium">Discount Applied</span>
+                          <span className="text-muted-foreground font-medium">Discount Applied</span>
                           <span className="font-medium text-green-600">-${record.details.discounts}</span>
                         </div>
                       )}
 
                       {/* Total */}
-                      <div className="border-t border-gray-200 pt-3">
+                      <div className="border-t border-border pt-3">
                         <div className="flex justify-between items-center">
                           <span className="font-semibold text-lg">Total Cost</span>
                           <span className="font-semibold text-lg">${record.cost}</span>
@@ -217,9 +217,9 @@ const ServiceHistory = () => {
                       </div>
 
                       {/* Notes */}
-                      <div className="bg-gray-50 p-3 rounded-lg">
-                        <h4 className="font-medium text-gray-900 mb-2">Service Notes</h4>
-                        <p className="text-gray-700 leading-relaxed">{record.details.notes}</p>
+                      <div className="bg-muted/50 p-3 rounded-lg">
+                        <h4 className="font-medium text-foreground mb-2">Service Notes</h4>
+                        <p className="text-muted-foreground leading-relaxed">{record.details.notes}</p>
                       </div>
                     </div>
                   </CollapsibleContent>

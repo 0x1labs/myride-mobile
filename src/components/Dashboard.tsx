@@ -43,7 +43,7 @@ const Dashboard = ({ onBookAppointment }: DashboardProps) => {
       <div className="relative h-64 bg-gradient-to-br from-slate-600 to-slate-800 overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative z-10 p-6 h-full flex flex-col justify-end text-white">
-          <h2 className="text-2xl font-bold">Honda Civic</h2>
+          <h2 className="text-2xl font-bold">KTM Adv </h2>
           <p className="text-slate-200">BA 1234 • 2021</p>
         </div>
         {/* Car silhouette */}

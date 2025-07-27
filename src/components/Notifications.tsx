@@ -11,7 +11,7 @@ const Notifications = () => {
       id: '1',
       type: 'service',
       title: 'Service Reminder',
-      message: 'Your Honda Civic is due for routine maintenance on December 12, 2024',
+      message: 'Your KTM Adv 390 is due for routine maintenance on December 12, 2024',
       timestamp: '2024-12-01T10:00:00Z',
       isRead: false,
       priority: 'medium'
@@ -66,26 +66,26 @@ const Notifications = () => {
   const getNotificationIcon = (type: string) => {
     switch (type) {
       case 'service':
-        return <Calendar className="h-5 w-5 text-blue-600" />;
+        return <Calendar className="h-5 w-5 text-primary" />;
       case 'document':
-        return <FileText className="h-5 w-5 text-orange-600" />;
+        return <FileText className="h-5 w-5 text-primary" />;
       case 'appointment':
-        return <CheckCircle className="h-5 w-5 text-green-600" />;
+        return <CheckCircle className="h-5 w-5 text-primary" />;
       default:
-        return <Bell className="h-5 w-5 text-gray-600" />;
+        return <Bell className="h-5 w-5 text-muted-foreground" />;
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case 'high':
-        return 'bg-red-100 text-red-800 border-red-200';
+        return 'bg-red-500 text-white border-red-600';
       case 'medium':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+        return 'bg-yellow-500 text-white border-yellow-600';
       case 'low':
-        return 'bg-green-100 text-green-800 border-green-200';
+        return 'bg-green-500 text-white border-green-600';
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return 'bg-muted text-foreground border-border';
     }
   };
 
@@ -110,9 +110,9 @@ const Notifications = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-semibold text-gray-900">Notifications</h2>
+            <h2 className="text-xl font-semibold text-foreground">Notifications</h2>
             {unreadCount > 0 && (
-              <p className="text-sm text-gray-600">{unreadCount} unread notifications</p>
+              <p className="text-sm text-muted-foreground">{unreadCount} unread notifications</p>
             )}
           </div>
           {unreadCount > 0 && (
@@ -128,16 +128,16 @@ const Notifications = () => {
 
         {notifications.length === 0 ? (
           <div className="text-center py-12">
-            <Bell className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No Notifications</h3>
-            <p className="text-gray-500">You're all caught up!</p>
+            <Bell className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-foreground mb-2">No Notifications</h3>
+            <p className="text-muted-foreground">You're all caught up!</p>
           </div>
         ) : (
           <div className="space-y-3">
             {notifications.map((notification) => (
               <Card 
                 key={notification.id} 
-                className={`relative ${!notification.isRead ? 'bg-blue-50 border-blue-200' : ''}`}
+                className={`relative ${!notification.isRead ? 'bg-blue-50 border-blue-200' : 'bg-card/50'}`}
               >
                 <CardContent className="p-4">
                   <div className="flex items-start space-x-3">
@@ -147,14 +147,14 @@ const Notifications = () => {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
-                          <h3 className="text-sm font-medium text-gray-900">
+                          <h3 className={`text-sm font-medium ${notification.isRead ? 'text-muted-background' : 'text-black'}`}>
                             {notification.title}
                           </h3>
-                          <p className="mt-1 text-sm text-gray-600">
+                          <p className={`mt-1 text-sm ${notification.isRead ? 'text-muted-background' : 'text-black'}`}>
                             {notification.message}
                           </p>
                           <div className="mt-2 flex items-center space-x-2">
-                            <span className="text-xs text-gray-500">
+                            <span className={`text-xs ${notification.isRead ? 'text-muted-background' : 'text-black'}`}>
                               {formatTimestamp(notification.timestamp)}
                             </span>
                             <Badge 
@@ -171,7 +171,7 @@ const Notifications = () => {
                               variant="ghost"
                               size="sm"
                               onClick={() => handleMarkAsRead(notification.id)}
-                              className="text-xs h-8 px-2"
+                              className="text-xs  h-8 px-2"
                             >
                               Mark read
                             </Button>
@@ -180,7 +180,7 @@ const Notifications = () => {
                             variant="ghost"
                             size="icon"
                             onClick={() => handleDeleteNotification(notification.id)}
-                            className="h-8 w-8 text-gray-400 hover:text-red-500"
+                            className="h-8 w-8 text-muted-background hover:text-red-500"
                           >
                             <X className="h-4 w-4" />
                           </Button>

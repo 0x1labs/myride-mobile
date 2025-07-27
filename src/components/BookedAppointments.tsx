@@ -18,7 +18,7 @@ const BookedAppointments = () => {
       contactName: 'Ram Sharma',
       contactPhone: '+977 98X-XXX-XXXX',
       notes: 'Regular check-up and oil change',
-      location: 'Honda Service Center, Kathmandu'
+      location: 'KTM Service Center, Naxal'
     },
     {
       id: '2',
@@ -29,7 +29,7 @@ const BookedAppointments = () => {
       contactName: 'Ram Sharma',
       contactPhone: '+977 98X-XXX-XXXX',
       notes: 'Brake pads replacement needed',
-      location: 'Honda Service Center, Lalitpur'
+      location: 'KTM Service Center, Lalitpur'
     }
   ]);
 
@@ -88,7 +88,7 @@ const BookedAppointments = () => {
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <CardTitle className="text-lg font-semibold text-gray-900">
+                  <CardTitle className="text-lg font-semibold text-muted-foreground">
                     {appointment.serviceType}
                   </CardTitle>
                   <Badge 

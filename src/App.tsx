@@ -1,15 +1,15 @@
 
-import { useState } from "react";
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ThemeProvider } from "next-themes";
-import Index from "./pages/Index";
-import Login from "./pages/Login";
-import OtpVerification from "./pages/OtpVerification";
-import NotFound from "./pages/NotFound";
+import { useState, useEffect } from 'react';
+import { Toaster } from '@/components/ui/toaster';
+import { Toaster as Sonner } from '@/components/ui/sonner';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from 'next-themes';
+import Index from './pages/Index';
+import Login from './pages/Login';
+import OtpVerification from './pages/OtpVerification';
+import NotFound from './pages/NotFound';
 
 const queryClient = new QueryClient();
 
@@ -18,17 +18,27 @@ const App = () => {
   const [currentStep, setCurrentStep] = useState<'login' | 'otp' | 'app'>('login');
   const [phoneNumber, setPhoneNumber] = useState('');
 
+  useEffect(() => {
+    const loggedIn = localStorage.getItem('isAuthenticated') === 'true';
+    if (loggedIn) {
+      setIsAuthenticated(true);
+      setCurrentStep('app');
+    }
+  }, []);
+
   const handleLogin = (phone: string) => {
     setPhoneNumber(phone);
     setCurrentStep('otp');
   };
 
   const handleOtpVerify = () => {
+    localStorage.setItem('isAuthenticated', 'true');
     setIsAuthenticated(true);
     setCurrentStep('app');
   };
 
   const handleSignOut = () => {
+    localStorage.removeItem('isAuthenticated');
     setIsAuthenticated(false);
     setCurrentStep('login');
     setPhoneNumber('');

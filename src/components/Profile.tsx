@@ -88,7 +88,7 @@ const Profile = ({ onSignOut }: ProfileProps) => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
             <CardTitle className="text-lg font-semibold flex items-center">
-              <User className="mr-2 h-5 w-5 text-blue-600" />
+              <User className="mr-2 h-5 w-5 text-primary" />
               Personal Information
             </CardTitle>
             {!isEditing ? (
@@ -139,7 +139,7 @@ const Profile = ({ onSignOut }: ProfileProps) => {
                   )}
                 </div>
               ) : (
-                <p className="text-gray-900 font-medium">{userInfo.name}</p>
+                <p className="text-foreground font-medium">{userInfo.name}</p>
               )}
             </div>
 
@@ -160,14 +160,14 @@ const Profile = ({ onSignOut }: ProfileProps) => {
                   )}
                 </div>
               ) : (
-                <p className="text-gray-900 font-medium">{userInfo.email}</p>
+                <p className="text-foreground font-medium">{userInfo.email}</p>
               )}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="phone">Phone Number</Label>
-              <p className="text-gray-900 font-medium">{userInfo.phone}</p>
-              <p className="text-sm text-gray-500">Contact support to change your phone number</p>
+              <p className="text-foreground font-medium">{userInfo.phone}</p>
+              <p className="text-sm text-muted-foreground">Contact support to change your phone number</p>
             </div>
           </CardContent>
         </Card>
@@ -176,14 +176,14 @@ const Profile = ({ onSignOut }: ProfileProps) => {
         <Card>
           <CardHeader>
             <CardTitle className="text-lg font-semibold flex items-center">
-              <Car className="mr-2 h-5 w-5 text-blue-600" />
+              <Car className="mr-2 h-5 w-5 text-primary" />
               Linked Vehicle
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <p className="font-medium text-gray-900">BA 3 PA 1234</p>
-              <p className="text-sm text-gray-600">Honda City 2022</p>
+            <div className="bg-muted/50 p-4 rounded-lg">
+              <p className="font-medium text-foreground">BadA 3 PA 1234</p>
+              <p className="text-sm text-muted-foreground">KTM Adv 390 2022</p>
             </div>
           </CardContent>
         </Card>
@@ -192,7 +192,7 @@ const Profile = ({ onSignOut }: ProfileProps) => {
         <Card>
           <CardHeader>
             <CardTitle className="text-lg font-semibold flex items-center">
-              <Bell className="mr-2 h-5 w-5 text-blue-600" />
+              <Bell className="mr-2 h-5 w-5 text-primary" />
               Notification Preferences
             </CardTitle>
           </CardHeader>
@@ -200,7 +200,7 @@ const Profile = ({ onSignOut }: ProfileProps) => {
             <div className="flex items-center justify-between">
               <div>
                 <Label htmlFor="service-reminders" className="text-base">Service Reminders</Label>
-                <p className="text-sm text-gray-500">Get notified about upcoming services</p>
+                <p className="text-sm text-muted-foreground">Get notified about upcoming services</p>
               </div>
               <Switch
                 id="service-reminders"
@@ -212,7 +212,7 @@ const Profile = ({ onSignOut }: ProfileProps) => {
             <div className="flex items-center justify-between">
               <div>
                 <Label htmlFor="promotions" className="text-base">Offers & Promotions</Label>
-                <p className="text-sm text-gray-500">Receive special offers and discounts</p>
+                <p className="text-sm text-muted-foreground">Receive special offers and discounts</p>
               </div>
               <Switch
                 id="promotions"
@@ -224,7 +224,7 @@ const Profile = ({ onSignOut }: ProfileProps) => {
             <div className="flex items-center justify-between">
               <div>
                 <Label htmlFor="document-alerts" className="text-base">Document Alerts</Label>
-                <p className="text-sm text-gray-500">Alerts for license and insurance renewals</p>
+                <p className="text-sm text-muted-foreground">Alerts for license and insurance renewals</p>
               </div>
               <Switch
                 id="document-alerts"
@@ -236,7 +236,7 @@ const Profile = ({ onSignOut }: ProfileProps) => {
             <div className="flex items-center justify-between">
               <div>
                 <Label htmlFor="custom-alerts" className="text-base">Custom Alerts</Label>
-                <p className="text-sm text-gray-500">Personalized alerts based on usage</p>
+                <p className="text-sm text-muted-foreground">Personalized alerts based on usage</p>
               </div>
               <Switch
                 id="custom-alerts"

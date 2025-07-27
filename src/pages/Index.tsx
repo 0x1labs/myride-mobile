@@ -1,24 +1,28 @@
 
 import { useState } from 'react';
-import { Bell, BarChart3, MessageCircle, User, History, Bike, FileText, CalendarCheck, Moon, Sun } from 'lucide-react';
+import { Bell, BarChart3, User, History, FileText, CalendarCheck, Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useTheme } from 'next-themes';
 import MyRide from '@/components/MyRide';
-import ServiceHistory from '@/components/ServiceHistory';
 import Profile from '@/components/Profile';
 import BookAppointment from '@/pages/BookAppointment';
 import BookedAppointments from '@/components/BookedAppointments';
 import Notifications from '@/components/Notifications';
 import DocumentManager from '@/components/DocumentManager';
+import AddRide from '@/components/AddRide';
+import FuelLog from '@/components/FuelLog';
+import Reminders from '@/components/Reminders';
+import Activity from '@/pages/Activity';
 
 interface IndexProps {
   onSignOut: () => void;
 }
 
+type ActiveView = 'insights' | 'appointments' | 'activity' | 'documents' | 'notifications' | 'profile' | 'add-ride' | 'fuel-log' | 'reminders';
+
 const Index = ({ onSignOut }: IndexProps) => {
-  const [activeTab, setActiveTab] = useState('insights');
+  const [activeTab, setActiveTab] = useState<ActiveView>('insights');
   const [showBooking, setShowBooking] = useState(false);
   const { theme, setTheme } = useTheme();
 
@@ -34,6 +38,10 @@ const Index = ({ onSignOut }: IndexProps) => {
     setActiveTab('notifications');
   };
 
+  const handleBack = () => {
+    setActiveTab('insights');
+  }
+
   // Show booking page if user is booking
   if (showBooking) {
     return <BookAppointment onBack={handleBackFromBooking} />;
@@ -42,19 +50,35 @@ const Index = ({ onSignOut }: IndexProps) => {
   const renderContent = () => {
     switch (activeTab) {
       case 'insights':
-        return <MyRide onBookService={handleBookAppointment} />;
+        return <MyRide 
+          onBookService={handleBookAppointment} 
+          onAddRide={() => setActiveTab('add-ride')}
+          onFuelLog={() => setActiveTab('fuel-log')}
+          onReminders={() => setActiveTab('reminders')}
+        />;
       case 'appointments':
         return <BookedAppointments />;
-      case 'history':
-        return <ServiceHistory />;
+      case 'activity':
+        return <Activity />;
       case 'documents':
         return <DocumentManager />;
       case 'notifications':
         return <Notifications />;
       case 'profile':
         return <Profile onSignOut={onSignOut} />;
+      case 'add-ride':
+        return <AddRide onBack={handleBack} />;
+      case 'fuel-log':
+        return <FuelLog onBack={handleBack} />;
+      case 'reminders':
+        return <Reminders onBack={handleBack} />;
       default:
-        return <MyRide onBookService={handleBookAppointment} />;
+        return <MyRide 
+          onBookService={handleBookAppointment} 
+          onAddRide={() => setActiveTab('add-ride')}
+          onFuelLog={() => setActiveTab('fuel-log')}
+          onReminders={() => setActiveTab('reminders')}
+        />;
     }
   };
 
@@ -64,14 +88,20 @@ const Index = ({ onSignOut }: IndexProps) => {
         return 'My Ride';
       case 'appointments':
         return 'Service Bookings';
-      case 'history':
-        return 'Service History';
+      case 'activity':
+        return 'Activity';
       case 'documents':
         return 'Documents';
       case 'notifications':
         return 'Notifications';
       case 'profile':
         return 'Profile';
+      case 'add-ride':
+        return 'Add Ride';
+      case 'fuel-log':
+        return 'Fuel Log';
+      case 'reminders':
+        return 'Reminders';
       default:
         return 'My Ride';
     }
@@ -156,20 +186,20 @@ const Index = ({ onSignOut }: IndexProps) => {
           </button>
           
           <button
-            onClick={() => setActiveTab('history')}
+            onClick={() => setActiveTab('activity')}
             className={`flex-1 py-3 px-2 flex flex-col items-center space-y-1 min-h-[70px] transition-all duration-300 focus:outline-none ${
-              activeTab === 'history' 
+              activeTab === 'activity' 
                 ? 'text-primary bg-primary/10 relative' 
                 : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
             }`}
-            aria-label="Service history"
-            aria-current={activeTab === 'history' ? 'page' : undefined}
+            aria-label="Activity"
+            aria-current={activeTab === 'activity' ? 'page' : undefined}
           >
-            {activeTab === 'history' && (
+            {activeTab === 'activity' && (
               <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 ktm-gradient rounded-full"></div>
             )}
             <History className="h-5 w-5" aria-hidden="true" />
-            <span className="text-xs font-medium">History</span>
+            <span className="text-xs font-medium">Activity</span>
           </button>
           
           <button

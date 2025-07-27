@@ -7,14 +7,25 @@ import ktmImage from '@/assets/ktm-390-adventure.jpg';
 
 interface MyRideProps {
   onBookService?: () => void;
+  onAddRide?: () => void;
+  onFuelLog?: () => void;
+  onReminders?: () => void;
 }
 
-const MyRide = ({ onBookService }: MyRideProps) => {
-
+const MyRide = ({ onBookService, onAddRide, onFuelLog, onReminders }: MyRideProps) => {
   return (
     <div className="space-y-6 pb-20">
-      {/* Hero Section with KTM */}
-      <div className="relative overflow-hidden rounded-2xl ktm-card">
+      {/* KTM Image at the top */}
+      <div className="w-full flex justify-center items-center pt-4">
+        <img 
+          src={ktmImage} 
+          alt="KTM 390 Adventure" 
+          className="w-full max-w-xs object-contain"
+        />
+      </div>
+
+      {/* Hero Section with KTM - Text Content */}
+      <div className="relative rounded-2xl ktm-card -mt-12 z-10"> {/* Adjust margin-top to overlap with image */}
         <div className="absolute inset-0 ktm-gradient opacity-10"></div>
         <div className="relative p-6 flex items-center space-x-4">
           <div className="flex-1">
@@ -25,12 +36,7 @@ const MyRide = ({ onBookService }: MyRideProps) => {
               <Badge variant="outline" className="text-foreground border-border">Next Service: 550 km</Badge>
             </div>
           </div>
-          <div className="w-32 h-24 rounded-lg overflow-hidden">
-            <img 
-              src={ktmImage} 
-              alt="KTM 390 Adventure" 
-              className="w-full h-full object-cover"
-            />
+          <div className="w-32 h-24 rounded-lg overflow-hidden opacity-0">{/* Placeholder to maintain layout */}
           </div>
         </div>
       </div>
@@ -118,18 +124,18 @@ const MyRide = ({ onBookService }: MyRideProps) => {
           <Wrench className="h-4 w-4 mr-2" />
           Book Service
         </Button>
-        <Button variant="outline" className="h-12 text-foreground border-border">
+        <Button onClick={onAddRide} variant="outline" className="h-12 text-foreground border-border">
           <Plus className="h-4 w-4 mr-2" />
           Add Ride
         </Button>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <Button variant="outline" className="h-12 text-foreground border-border">
+        <Button onClick={onFuelLog} variant="outline" className="h-12 text-foreground border-border">
           <Calendar className="h-4 w-4 mr-2" />
           Fuel Log
         </Button>
-        <Button variant="outline" className="h-12 text-foreground border-border">
+        <Button onClick={onReminders} variant="outline" className="h-12 text-foreground border-border">
           <Clock className="h-4 w-4 mr-2" />
           Reminders
         </Button>
