@@ -72,9 +72,9 @@ const BookAppointment = ({ onBack }: BookAppointmentProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-card/80 backdrop-blur-lg shadow-sm border-b border-border sticky top-0 z-10">
         <div className="max-w-md mx-auto px-4 py-4 flex items-center">
           <Button 
             variant="ghost" 
@@ -85,8 +85,8 @@ const BookAppointment = ({ onBack }: BookAppointmentProps) => {
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <h1 className="text-xl font-semibold text-gray-900">
-            Book Appointment
+          <h1 className="text-xl font-bold text-foreground ktm-gradient bg-clip-text text-transparent">
+            KTM Service Booking
           </h1>
         </div>
       </header>
@@ -94,15 +94,15 @@ const BookAppointment = ({ onBack }: BookAppointmentProps) => {
       {/* Content */}
       <main className="max-w-md mx-auto p-4 pb-8">
         {/* Vehicle Info */}
-        <Card className="mb-4">
+        <Card className="mb-4 ktm-card">
           <CardContent className="p-4">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                <span className="text-blue-600 font-semibold">HC</span>
+              <div className="w-12 h-12 ktm-gradient rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold">KTM</span>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">Honda Civic</h3>
-                <p className="text-sm text-gray-600">BA 1234 • 2021</p>
+                <h3 className="font-bold text-foreground">KTM 390 Adventure</h3>
+                <p className="text-sm text-muted-foreground">BA 1234 • 2024</p>
               </div>
             </div>
           </CardContent>
@@ -241,9 +241,9 @@ const BookAppointment = ({ onBack }: BookAppointmentProps) => {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full h-12 text-base font-medium"
+            className="w-full h-12 text-base font-medium ktm-gradient text-white hover:opacity-90 transition-all duration-300"
           >
-            {isSubmitting ? 'Booking...' : 'Book Appointment'}
+            {isSubmitting ? 'Booking Service...' : 'Book KTM Service'}
           </Button>
         </form>
       </main>

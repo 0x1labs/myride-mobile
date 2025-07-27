@@ -1,10 +1,11 @@
 
 import { useState } from 'react';
-import { Bell, Calendar, MessageCircle, User, History, Home, FileText, CalendarCheck } from 'lucide-react';
+import { Bell, BarChart3, MessageCircle, User, History, Bike, FileText, CalendarCheck, Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import Dashboard from '@/components/Dashboard';
+import { useTheme } from 'next-themes';
+import TrackInsights from '@/components/TrackInsights';
 import ServiceHistory from '@/components/ServiceHistory';
 import Profile from '@/components/Profile';
 import BookAppointment from '@/pages/BookAppointment';
@@ -17,8 +18,9 @@ interface IndexProps {
 }
 
 const Index = ({ onSignOut }: IndexProps) => {
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState('insights');
   const [showBooking, setShowBooking] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   const handleBookAppointment = () => {
     setShowBooking(true);
@@ -39,8 +41,8 @@ const Index = ({ onSignOut }: IndexProps) => {
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'dashboard':
-        return <Dashboard onBookAppointment={handleBookAppointment} />;
+      case 'insights':
+        return <TrackInsights onBookService={handleBookAppointment} />;
       case 'appointments':
         return <BookedAppointments />;
       case 'history':
@@ -52,16 +54,16 @@ const Index = ({ onSignOut }: IndexProps) => {
       case 'profile':
         return <Profile onSignOut={onSignOut} />;
       default:
-        return <Dashboard onBookAppointment={handleBookAppointment} />;
+        return <TrackInsights onBookService={handleBookAppointment} />;
     }
   };
 
   const getPageTitle = () => {
     switch (activeTab) {
-      case 'dashboard':
-        return 'My Vehicle';
+      case 'insights':
+        return 'Track Insights';
       case 'appointments':
-        return 'My Appointments';
+        return 'Service Bookings';
       case 'history':
         return 'Service History';
       case 'documents':
@@ -69,35 +71,45 @@ const Index = ({ onSignOut }: IndexProps) => {
       case 'notifications':
         return 'Notifications';
       case 'profile':
-        return 'Account';
+        return 'Profile';
       default:
-        return 'My Vehicle';
+        return 'Track Insights';
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-card/80 backdrop-blur-lg shadow-sm border-b border-border sticky top-0 z-50">
         <div className="max-w-md mx-auto px-4 py-4 flex items-center justify-between">
-          <h1 className="text-xl font-semibold text-gray-900">
+          <h1 className="text-xl font-bold text-foreground ktm-gradient bg-clip-text text-transparent">
             {getPageTitle()}
           </h1>
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={handleNotificationClick}
-            className="relative h-12 w-12 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            aria-label="Notifications"
-          >
-            <Bell className="h-5 w-5" aria-hidden="true" />
-            <Badge 
-              className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center bg-red-500 text-xs"
-              aria-label="2 unread notifications"
+          <div className="flex items-center space-x-2">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="h-10 w-10"
             >
-              2
-            </Badge>
-          </Button>
+              {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </Button>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={handleNotificationClick}
+              className="relative h-10 w-10"
+              aria-label="Notifications"
+            >
+              <Bell className="h-4 w-4" aria-hidden="true" />
+              <Badge 
+                className="absolute -top-1 -right-1 h-4 w-4 rounded-full p-0 flex items-center justify-center bg-primary text-xs text-primary-foreground"
+                aria-label="2 unread notifications"
+              >
+                2
+              </Badge>
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -107,64 +119,89 @@ const Index = ({ onSignOut }: IndexProps) => {
       </main>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg" role="navigation" aria-label="Main navigation">
+      <nav className="fixed bottom-0 left-0 right-0 bg-card/90 backdrop-blur-lg border-t border-border shadow-lg" role="navigation" aria-label="Main navigation">
         <div className="max-w-md mx-auto flex">
           <button
-            onClick={() => setActiveTab('dashboard')}
-            className={`flex-1 py-2 px-2 flex flex-col items-center space-y-1 min-h-[60px] transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 ${
-              activeTab === 'dashboard' ? 'text-blue-600 bg-blue-50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+            onClick={() => setActiveTab('insights')}
+            className={`flex-1 py-3 px-2 flex flex-col items-center space-y-1 min-h-[70px] transition-all duration-300 focus:outline-none ${
+              activeTab === 'insights' 
+                ? 'text-primary bg-primary/10 relative' 
+                : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
             }`}
-            aria-label="Home screen"
-            aria-current={activeTab === 'dashboard' ? 'page' : undefined}
+            aria-label="Track insights"
+            aria-current={activeTab === 'insights' ? 'page' : undefined}
           >
-            <Home className="h-5 w-5" aria-hidden="true" />
-            <span className="text-xs font-medium">Home</span>
+            {activeTab === 'insights' && (
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 ktm-gradient rounded-full"></div>
+            )}
+            <BarChart3 className="h-5 w-5" aria-hidden="true" />
+            <span className="text-xs font-medium">Insights</span>
           </button>
           
           <button
             onClick={() => setActiveTab('appointments')}
-            className={`flex-1 py-2 px-2 flex flex-col items-center space-y-1 min-h-[60px] transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 ${
-              activeTab === 'appointments' ? 'text-blue-600 bg-blue-50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+            className={`flex-1 py-3 px-2 flex flex-col items-center space-y-1 min-h-[70px] transition-all duration-300 focus:outline-none ${
+              activeTab === 'appointments' 
+                ? 'text-primary bg-primary/10 relative' 
+                : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
             }`}
-            aria-label="My appointments"
+            aria-label="Service bookings"
             aria-current={activeTab === 'appointments' ? 'page' : undefined}
           >
+            {activeTab === 'appointments' && (
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 ktm-gradient rounded-full"></div>
+            )}
             <CalendarCheck className="h-5 w-5" aria-hidden="true" />
-            <span className="text-xs font-medium">Appointments</span>
+            <span className="text-xs font-medium">Service</span>
           </button>
           
           <button
             onClick={() => setActiveTab('history')}
-            className={`flex-1 py-2 px-2 flex flex-col items-center space-y-1 min-h-[60px] transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 ${
-              activeTab === 'history' ? 'text-blue-600 bg-blue-50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+            className={`flex-1 py-3 px-2 flex flex-col items-center space-y-1 min-h-[70px] transition-all duration-300 focus:outline-none ${
+              activeTab === 'history' 
+                ? 'text-primary bg-primary/10 relative' 
+                : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
             }`}
             aria-label="Service history"
             aria-current={activeTab === 'history' ? 'page' : undefined}
           >
+            {activeTab === 'history' && (
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 ktm-gradient rounded-full"></div>
+            )}
             <History className="h-5 w-5" aria-hidden="true" />
             <span className="text-xs font-medium">History</span>
           </button>
           
           <button
             onClick={() => setActiveTab('documents')}
-            className={`flex-1 py-2 px-2 flex flex-col items-center space-y-1 min-h-[60px] transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 ${
-              activeTab === 'documents' ? 'text-blue-600 bg-blue-50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+            className={`flex-1 py-3 px-2 flex flex-col items-center space-y-1 min-h-[70px] transition-all duration-300 focus:outline-none ${
+              activeTab === 'documents' 
+                ? 'text-primary bg-primary/10 relative' 
+                : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
             }`}
             aria-label="Documents"
             aria-current={activeTab === 'documents' ? 'page' : undefined}
           >
+            {activeTab === 'documents' && (
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 ktm-gradient rounded-full"></div>
+            )}
             <FileText className="h-5 w-5" aria-hidden="true" />
-            <span className="text-xs font-medium">Documents</span>
+            <span className="text-xs font-medium">Docs</span>
           </button>
           
           <button
             onClick={() => setActiveTab('profile')}
-            className={`flex-1 py-2 px-2 flex flex-col items-center space-y-1 min-h-[60px] transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 ${
-              activeTab === 'profile' ? 'text-blue-600 bg-blue-50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+            className={`flex-1 py-3 px-2 flex flex-col items-center space-y-1 min-h-[70px] transition-all duration-300 focus:outline-none ${
+              activeTab === 'profile' 
+                ? 'text-primary bg-primary/10 relative' 
+                : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
             }`}
             aria-label="Profile and settings"
             aria-current={activeTab === 'profile' ? 'page' : undefined}
           >
+            {activeTab === 'profile' && (
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 ktm-gradient rounded-full"></div>
+            )}
             <User className="h-5 w-5" aria-hidden="true" />
             <span className="text-xs font-medium">Profile</span>
           </button>

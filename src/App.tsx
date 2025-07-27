@@ -5,6 +5,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ThemeProvider } from "next-themes";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import OtpVerification from "./pages/OtpVerification";
@@ -41,46 +42,52 @@ const App = () => {
   if (!isAuthenticated) {
     if (currentStep === 'login') {
       return (
-        <QueryClientProvider client={queryClient}>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <Login onLogin={handleLogin} />
-          </TooltipProvider>
-        </QueryClientProvider>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <QueryClientProvider client={queryClient}>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <Login onLogin={handleLogin} />
+            </TooltipProvider>
+          </QueryClientProvider>
+        </ThemeProvider>
       );
     }
 
     if (currentStep === 'otp') {
       return (
-        <QueryClientProvider client={queryClient}>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <OtpVerification
-              phoneNumber={phoneNumber}
-              onVerify={handleOtpVerify}
-              onBack={handleBackToLogin}
-            />
-          </TooltipProvider>
-        </QueryClientProvider>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <QueryClientProvider client={queryClient}>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <OtpVerification
+                phoneNumber={phoneNumber}
+                onVerify={handleOtpVerify}
+                onBack={handleBackToLogin}
+              />
+            </TooltipProvider>
+          </QueryClientProvider>
+        </ThemeProvider>
       );
     }
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index onSignOut={handleSignOut} />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index onSignOut={handleSignOut} />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 };
 

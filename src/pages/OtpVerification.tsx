@@ -46,9 +46,9 @@ const OtpVerification = ({ phoneNumber, onVerify, onBack }: OtpVerificationProps
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center space-y-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <Card className="w-full max-w-md ktm-card">
+        <CardHeader className="text-center space-y-6">
           <Button
             variant="ghost"
             size="icon"
@@ -58,18 +58,26 @@ const OtpVerification = ({ phoneNumber, onVerify, onBack }: OtpVerificationProps
             <ArrowLeft className="h-5 w-5" />
           </Button>
           
-          <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-            <Shield className="h-8 w-8 text-green-600" />
+          <div className="space-y-4">
+            <div className="mx-auto w-20 h-20 ktm-gradient rounded-full flex items-center justify-center ktm-glow">
+              <Shield className="h-10 w-10 text-white" />
+            </div>
+            <div>
+              <h1 className="text-4xl font-bold ktm-gradient bg-clip-text text-transparent mb-2">
+                KTM Track
+              </h1>
+              <p className="text-lg text-muted-foreground">Motorcycle Insights</p>
+            </div>
           </div>
           
-          <CardTitle className="text-2xl font-semibold text-gray-900">
+          <CardTitle className="text-2xl font-bold text-foreground">
             Verify Your Number
           </CardTitle>
           
-          <p className="text-gray-600">
+          <p className="text-muted-foreground">
             We've sent a verification code to
           </p>
-          <p className="font-medium text-gray-900">
+          <p className="font-medium text-foreground">
             {formatPhoneNumber(phoneNumber)}
           </p>
         </CardHeader>
@@ -118,9 +126,9 @@ const OtpVerification = ({ phoneNumber, onVerify, onBack }: OtpVerificationProps
           <Button
             onClick={onVerify}
             disabled={otp.length !== 6}
-            className="w-full h-12 text-base font-medium"
+            className="w-full h-12 text-base font-medium ktm-gradient text-white hover:opacity-90 transition-all duration-300"
           >
-            Verify & Continue
+            Verify & Enter Track
           </Button>
         </CardContent>
       </Card>

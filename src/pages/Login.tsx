@@ -41,17 +41,25 @@ const Login = ({ onLogin }: LoginProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center space-y-4">
-          <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
-            <Phone className="h-8 w-8 text-blue-600" />
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <Card className="w-full max-w-md ktm-card">
+        <CardHeader className="text-center space-y-6">
+          <div className="space-y-4">
+            <div className="mx-auto w-20 h-20 ktm-gradient rounded-full flex items-center justify-center ktm-glow">
+              <Phone className="h-10 w-10 text-white" />
+            </div>
+            <div>
+              <h1 className="text-4xl font-bold ktm-gradient bg-clip-text text-transparent mb-2">
+                KTM Track
+              </h1>
+              <p className="text-lg text-muted-foreground">Motorcycle Insights</p>
+            </div>
           </div>
-          <CardTitle className="text-2xl font-semibold text-gray-900">
-            Welcome Back
+          <CardTitle className="text-2xl font-bold text-foreground">
+            Ready to Ride?
           </CardTitle>
-          <p className="text-gray-600">
-            Enter your phone number to continue
+          <p className="text-muted-foreground">
+            Enter your phone number to access track insights
           </p>
         </CardHeader>
 
@@ -86,9 +94,9 @@ const Login = ({ onLogin }: LoginProps) => {
             <Button
               type="submit"
               disabled={!isValid}
-              className="w-full h-12 text-base font-medium"
+              className="w-full h-12 text-base font-medium ktm-gradient text-white hover:opacity-90 transition-all duration-300"
             >
-              Continue
+              Enter Track
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </form>
