@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useTheme } from 'next-themes';
-import TrackInsights from '@/components/TrackInsights';
+import MyRide from '@/components/MyRide';
 import ServiceHistory from '@/components/ServiceHistory';
 import Profile from '@/components/Profile';
 import BookAppointment from '@/pages/BookAppointment';
@@ -42,7 +42,7 @@ const Index = ({ onSignOut }: IndexProps) => {
   const renderContent = () => {
     switch (activeTab) {
       case 'insights':
-        return <TrackInsights onBookService={handleBookAppointment} />;
+        return <MyRide onBookService={handleBookAppointment} />;
       case 'appointments':
         return <BookedAppointments />;
       case 'history':
@@ -54,14 +54,14 @@ const Index = ({ onSignOut }: IndexProps) => {
       case 'profile':
         return <Profile onSignOut={onSignOut} />;
       default:
-        return <TrackInsights onBookService={handleBookAppointment} />;
+        return <MyRide onBookService={handleBookAppointment} />;
     }
   };
 
   const getPageTitle = () => {
     switch (activeTab) {
       case 'insights':
-        return 'Track Insights';
+        return 'My Ride';
       case 'appointments':
         return 'Service Bookings';
       case 'history':
@@ -73,7 +73,7 @@ const Index = ({ onSignOut }: IndexProps) => {
       case 'profile':
         return 'Profile';
       default:
-        return 'Track Insights';
+        return 'My Ride';
     }
   };
 
@@ -128,14 +128,14 @@ const Index = ({ onSignOut }: IndexProps) => {
                 ? 'text-primary bg-primary/10 relative' 
                 : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
             }`}
-            aria-label="Track insights"
+            aria-label="My ride dashboard"
             aria-current={activeTab === 'insights' ? 'page' : undefined}
           >
             {activeTab === 'insights' && (
               <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 ktm-gradient rounded-full"></div>
             )}
             <BarChart3 className="h-5 w-5" aria-hidden="true" />
-            <span className="text-xs font-medium">Insights</span>
+            <span className="text-xs font-medium">My Ride</span>
           </button>
           
           <button
